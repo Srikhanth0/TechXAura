@@ -1,0 +1,480 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* @plugin "tailwindcss-animate"; */
+
+:root {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+
+  --card: 0 0% 3%;
+  --card-foreground: 0 0% 100%;
+
+  --popover: 0 0% 3%;
+  --popover-foreground: 0 0% 100%;
+
+  --primary: 190 100% 50%;
+  /* Cyan */
+  --primary-foreground: 0 0% 0%;
+
+  --secondary: 280 100% 60%;
+  /* Purple */
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 65%;
+
+  --accent: 0 0% 15%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 190 100% 50%;
+
+  --radius: 0.75rem;
+
+  /* Cyberpunk Palette - derived from user request */
+  --bg-deep: #050505;
+  --bg-card: #0a0a0a;
+  --accent-cyan: #00f0ff;
+  --accent-purple: #bc13fe;
+  --text-main: #ffffff;
+  --text-dim: #8b9bb4;
+
+  --glow-cyan: 0 0 10px rgba(0, 240, 255, 0.5);
+  --glow-purple: 0 0 10px rgba(188, 19, 254, 0.5);
+
+  --border-neon: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --font-sans: var(--font-inter);
+  --font-audiowide: var(--font-audiowide);
+  --font-orbitron: var(--font-orbitron);
+  --font-nova: var(--font-nova);
+
+  --animate-star-btn: star-btn 5s linear infinite;
+
+  @keyframes star-btn {
+    0% {
+      offset-distance: 0%;
+    }
+
+    100% {
+      offset-distance: 100%;
+    }
+  }
+
+  @keyframes spin-reverse {
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 1s linear infinite;
+}
+
+/* GLOBAL VIEWPORT LOCK */
+html {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  /* Stop root scroll */
+  overscroll-behavior: none;
+  /* Kill rubber-band */
+  -webkit-overflow-scrolling: auto;
+  /* Stop iOS momentum on root */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* Stop body scroll */
+  overscroll-behavior: none;
+  /* Kill rubber-band */
+}
+
+/* HARDWARE ACCELERATED SCROLL CONTAINER */
+.immersive-scroll-container {
+  height: 100dvh;
+  /* Dynamic viewport height */
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Performance & Interaction */
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+  /* Stop internal bounce */
+  -webkit-overflow-scrolling: touch;
+  /* Enable momentum on internal container */
+  will-change: transform;
+  /* Promote to GPU layer */
+
+  /* Hide Scrollbar but keep functionality */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Custom Scrollbar - matching User Config */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-purple);
+  border-radius: 3px;
+}
+
+/* Fix footer whitespace issues */
+footer {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+footer img,
+footer svg {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+footer>* {
+  margin-bottom: 0;
+}
+
+.font-audiowide {
+  font-family: var(--font-audiowide), ui-sans-serif, system-ui;
+}
+
+/* Global Scrollbar Hiding */
+::-webkit-scrollbar {
+  display: none;
+  width: 0px;
+  background: transparent;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+
+/* CYBERPUNK COMPONENT STYLES */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  font-family: var(--font-header);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--bg-deep);
+  background: var(--accent-cyan);
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: all 0.2s ease;
+  box-shadow: var(--glow-cyan);
+}
+
+.btn:hover {
+  background: #fff;
+  box-shadow: 0 0 20px var(--accent-cyan);
+  transform: translateY(-2px);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  /* Increased width as per plan (approx max-w-4xl/5xl) */
+  max-width: 95vw;
+  height: 85vh;
+  background: var(--bg-deep);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 0 40px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  /* Striped background effect inside dialog too */
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.dialog-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dialog-icon {
+  color: var(--accent-cyan);
+  font-size: 1.5rem;
+}
+
+.dialog-title {
+  font-family: var(--font-header);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: var(--accent-cyan);
+}
+
+.dialog-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.section-title {
+  color: var(--accent-purple);
+  font-family: var(--font-header);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 2rem 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+.rounds-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .rounds-container {
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns for desktop */
+  }
+}
+
+.round-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 2px solid var(--accent-purple);
+  border-radius: 8px;
+  padding: 1rem;
+  height: 100%;
+}
+
+.round-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.round-title {
+  font-family: var(--font-header);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.round-time {
+  background: rgba(188, 19, 254, 0.1);
+  color: var(--accent-purple);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.round-desc {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.rules-list {
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.rules-list li {
+  margin-bottom: 0.8rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.rules-list li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--accent-cyan);
+  font-weight: bold;
+}
+
+.cta-button {
+  width: 100%;
+  padding: 1.2rem;
+  margin-top: 1rem;
+  background: transparent;
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  font-family: var(--font-header);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-cyan);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.cta-button:hover {
+  color: #000;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+}
+
+.cta-button:hover::before {
+  left: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

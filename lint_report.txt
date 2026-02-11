@@ -1,0 +1,258 @@
+
+> website@0.1.0 lint
+> eslint
+
+
+A:\TECHXAURA_2K26-main\docs\google-apps-script-fixed.js
+  15:10  warning  'doGet' is defined but never used   @typescript-eslint/no-unused-vars
+  15:16  warning  'e' is defined but never used       @typescript-eslint/no-unused-vars
+  24:10  warning  'doPost' is defined but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\app\admin\page.tsx
+    7:10  warning  'Input' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+    8:10  warning  'Label' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+    9:86  warning  'DialogDescription' is defined but never used                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+   11:63  warning  'where' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   11:70  warning  'Timestamp' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   13:10  warning  'Shield' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   13:25  warning  'DollarSign' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   20:7   warning  'ADMIN_USERNAME' is assigned a value but never used                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   26:62  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   29:58  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   45:46  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   46:45  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   47:51  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   55:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  129:8   warning  React Hook React.useEffect has a missing dependency: 'router'. Either include it or remove the dependency array                                                                                                                                                                          react-hooks/exhaustive-deps
+  304:70  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  316:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+A:\TECHXAURA_2K26-main\src\app\auth\page.tsx
+  17:11  warning  'isLowEnd' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\app\checkout\page.tsx
+  121:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  340:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  445:13  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\app\dashboard\page.tsx
+  16:8   warning  'dynamic' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  32:13  warning  'events' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+  53:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+A:\TECHXAURA_2K26-main\src\app\dashboard\page.tsx:53:13
+  51 |     useEffect(() => {
+  52 |         if (profile && !profile.rulesAccepted) {
+> 53 |             setShowRules(true);
+     |             ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  54 |         }
+  55 |     }, [profile]);
+  56 |  react-hooks/set-state-in-effect
+
+A:\TECHXAURA_2K26-main\src\components\auth\AuthTabs.tsx
+  29:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  56:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\auth\LoginForm.tsx
+  36:18  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\components\auth\RegisterForm.tsx
+  43:22  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+A:\TECHXAURA_2K26-main\src\components\auth\RegisterForm.tsx:43:22
+  41 |
+  42 |     const { register, handleSubmit, formState: { errors }, watch } = useForm<RegisterFormData>();
+> 43 |     const password = watch("password");
+     |                      ^^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  44 |
+  45 |     async function onSubmit(data: RegisterFormData) {
+  46 |         setLoading(true);  react-hooks/incompatible-library
+  61:18  warning  'err' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\components\dashboard\EventCard.tsx
+   7:10  warning  'Users' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   7:17  warning  'Clock' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  21:11  warning  'conflicts' is assigned a value but never used                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+  23:11  warning  'getCategoryColor' is assigned a value but never used                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  74:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+A:\TECHXAURA_2K26-main\src\components\home\HeroSection.tsx
+  9:11  warning  'isLowEnd' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\components\home\TechxauraHeroAdvanced.tsx
+  80:34  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+A:\TECHXAURA_2K26-main\src\components\home\TechxauraHeroAdvanced.tsx:80:34
+  78 |                     className="particle bg-cyan-400/30 blur-sm"
+  79 |                     style={{
+> 80 |                         left: `${Math.random() * 100}%`,
+     |                                  ^^^^^^^^^^^^^ Cannot call impure function
+  81 |                         width: `${Math.random() * 4 + 1}px`,
+  82 |                         height: `${Math.random() * 4 + 1}px`,
+  83 |                         animation: `particleFloat ${Math.random() * 5 + 5}s infinite linear`,   react-hooks/purity
+  81:35  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+A:\TECHXAURA_2K26-main\src\components\home\TechxauraHeroAdvanced.tsx:81:35
+  79 |                     style={{
+  80 |                         left: `${Math.random() * 100}%`,
+> 81 |                         width: `${Math.random() * 4 + 1}px`,
+     |                                   ^^^^^^^^^^^^^ Cannot call impure function
+  82 |                         height: `${Math.random() * 4 + 1}px`,
+  83 |                         animation: `particleFloat ${Math.random() * 5 + 5}s infinite linear`,
+  84 |                         animationDelay: `${Math.random() * 5}s`  react-hooks/purity
+  82:36  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+A:\TECHXAURA_2K26-main\src\components\home\TechxauraHeroAdvanced.tsx:82:36
+  80 |                         left: `${Math.random() * 100}%`,
+  81 |                         width: `${Math.random() * 4 + 1}px`,
+> 82 |                         height: `${Math.random() * 4 + 1}px`,
+     |                                    ^^^^^^^^^^^^^ Cannot call impure function
+  83 |                         animation: `particleFloat ${Math.random() * 5 + 5}s infinite linear`,
+  84 |                         animationDelay: `${Math.random() * 5}s`
+  85 |                     }}       react-hooks/purity
+  83:53  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+A:\TECHXAURA_2K26-main\src\components\home\TechxauraHeroAdvanced.tsx:83:53
+  81 |                         width: `${Math.random() * 4 + 1}px`,
+  82 |                         height: `${Math.random() * 4 + 1}px`,
+> 83 |                         animation: `particleFloat ${Math.random() * 5 + 5}s infinite linear`,
+     |                                                     ^^^^^^^^^^^^^ Cannot call impure function
+  84 |                         animationDelay: `${Math.random() * 5}s`
+  85 |                     }}
+  86 |                 />                            react-hooks/purity
+  84:44  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+A:\TECHXAURA_2K26-main\src\components\home\TechxauraHeroAdvanced.tsx:84:44
+  82 |                         height: `${Math.random() * 4 + 1}px`,
+  83 |                         animation: `particleFloat ${Math.random() * 5 + 5}s infinite linear`,
+> 84 |                         animationDelay: `${Math.random() * 5}s`
+     |                                            ^^^^^^^^^^^^^ Cannot call impure function
+  85 |                     }}
+  86 |                 />
+  87 |             ))}                                                                                  react-hooks/purity
+
+A:\TECHXAURA_2K26-main\src\components\ui\LoadingScreen.tsx
+  177:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  196:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\ui\blur-text.tsx
+  29:19  warning  'i' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\components\ui\control-knob.tsx
+   31:44  warning  'e' is defined but never used                    @typescript-eslint/no-unused-vars
+   50:17  error    'rads' is never reassigned. Use 'const' instead  prefer-const
+  163:66  error    Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  184:43  error    Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\ui\energy-beam.tsx
+  283:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  460:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  461:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  462:59  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  463:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  558:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  559:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  560:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  561:67  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\ui\footer-section.tsx
+  4:10  warning  'Facebook' is defined but never used  @typescript-eslint/no-unused-vars
+  5:10  warning  'Button' is defined but never used    @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\components\ui\landing-card.tsx
+    6:1   warning  Expected an assignment or function call and instead saw an expression                                                                                                                                                                                                                    @typescript-eslint/no-unused-expressions
+   53:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+   97:1   warning  Expected an assignment or function call and instead saw an expression                                                                                                                                                                                                                    @typescript-eslint/no-unused-expressions
+  166:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+A:\TECHXAURA_2K26-main\src\components\ui\limelight-nav.tsx
+   1:52  warning  'cloneElement' is defined but never used  @typescript-eslint/no-unused-vars
+  80:98  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  82:42  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\ui\performance-utils.ts
+    6:13  warning  'THREE' is defined but never used         @typescript-eslint/no-unused-vars
+   34:34  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  224:30  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  230:44  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  289:14  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\context\AuthContext.tsx
+   24:16  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-explicit-any
+   49:23  error  Error: Cannot access variable before it is declared
+
+`fetchProfile` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+A:\TECHXAURA_2K26-main\src\context\AuthContext.tsx:49:23
+  47 |             setUser(currentUser);
+  48 |             if (currentUser) {
+> 49 |                 await fetchProfile(currentUser.uid);
+     |                       ^^^^^^^^^^^^ `fetchProfile` accessed before it is declared
+  50 |             } else {
+  51 |                 setProfile(null);
+  52 |             }
+
+A:\TECHXAURA_2K26-main\src\context\AuthContext.tsx:59:5
+  57 |     }, []);
+  58 |
+> 59 |     async function fetchProfile(userId: string) {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 60 |         try {
+     | ^^^^^^^^^^^^^
+> 61 |             const docRef = doc(db, "users", userId);
+     …
+     | ^^^^^^^^^^^^^
+> 72 |         }
+     | ^^^^^^^^^^^^^
+> 73 |     }
+     | ^^^^^^ `fetchProfile` is declared here
+  74 |
+  75 |     async function signUp(
+  76 |         email: string,  react-hooks/immutability
+  100:25  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-explicit-any
+  109:25  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-explicit-any
+  142:25  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\context\EventsContext.tsx
+  28:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+A:\TECHXAURA_2K26-main\src\context\EventsContext.tsx:28:9
+  26 |     useEffect(() => {
+  27 |         // Direct assignment without delay
+> 28 |         setEvents(eventsData);
+     |         ^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |         setLoading(false);
+  30 |     }, []);
+  31 |  react-hooks/set-state-in-effect
+
+A:\TECHXAURA_2K26-main\src\hooks\use-performance-mode.tsx
+  3:10  warning  'useState' is defined but never used   @typescript-eslint/no-unused-vars
+  3:20  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 81 problems (42 errors, 39 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
