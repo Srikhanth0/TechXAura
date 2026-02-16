@@ -1,0 +1,93 @@
+
+> website@0.1.0 lint
+> eslint
+
+
+A:\TECHXAURA_2K26-main\docs\google-apps-script-fixed.js
+  15:10  warning  'doGet' is defined but never used   @typescript-eslint/no-unused-vars
+  15:16  warning  'e' is defined but never used       @typescript-eslint/no-unused-vars
+  24:10  warning  'doPost' is defined but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\app\admin\page.tsx
+   23:62  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   26:58  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   42:46  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   43:45  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   44:51  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   52:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  126:8   warning  React Hook React.useEffect has a missing dependency: 'router'. Either include it or remove the dependency array                                                                                                                                                                          react-hooks/exhaustive-deps
+  301:70  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  313:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+A:\TECHXAURA_2K26-main\src\app\auth\page.tsx
+  17:11  warning  'isLowEnd' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\app\checkout\page.tsx
+  121:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  340:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  445:13  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\auth\AuthTabs.tsx
+  29:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  56:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\auth\LoginForm.tsx
+  36:18  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\components\auth\RegisterForm.tsx
+  61:18  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\components\dashboard\EventCard.tsx
+   7:10  warning  'Users' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   7:17  warning  'Clock' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  21:11  warning  'conflicts' is assigned a value but never used                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+  23:11  warning  'getCategoryColor' is assigned a value but never used                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  74:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+A:\TECHXAURA_2K26-main\src\components\home\HeroSection.tsx
+  9:11  warning  'isLowEnd' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\components\home\TechxauraHeroAdvanced.tsx
+  19:5  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/exhaustive-deps')
+
+A:\TECHXAURA_2K26-main\src\components\ui\LoadingScreen.tsx
+  177:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  196:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\ui\blur-text.tsx
+  29:19  warning  'i' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+A:\TECHXAURA_2K26-main\src\components\ui\energy-beam.tsx
+  283:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  460:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  461:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  462:59  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  463:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  558:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  559:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  560:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  561:67  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\ui\landing-card.tsx
+  71:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+A:\TECHXAURA_2K26-main\src\components\ui\limelight-nav.tsx
+  80:98  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  82:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\components\ui\performance-utils.ts
+  224:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  230:69  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\context\AuthContext.tsx
+   24:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  102:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  111:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  144:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+A:\TECHXAURA_2K26-main\src\hooks\use-performance-mode.tsx
+  3:8  warning  'React' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 49 problems (30 errors, 19 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

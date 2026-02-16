@@ -1,0 +1,63 @@
+# TECHXAURA 2K26 | Technical Symposium
+
+
+# TECHXAURA
+2K26 Symposium
+[GET STARTED](http://localhost:3000/auth)
+SRIRAM ENGINEERING COLLEGE WELCOMES YOU!!
+
+## ALL EVENTS
+[TechnicalMindSparkXQuiz & Problem Solving Challenge1-3 Members10:00 AM - 12:00 PM](http://localhost:3000/dashboard?event=mindsparkx)
+
+### MindSparkX
+Quiz & Problem Solving Challenge
+[TechnicalDesign-O-ManiaDesign Competition1-2 Members10:00 AM - 12:00 PM](http://localhost:3000/dashboard?event=designomania)
+
+### Design-O-Mania
+Design Competition
+[TechnicalBusiness BattleBusiness Case Study2-4 Members2:00 PM - 4:00 PM](http://localhost:3000/dashboard?event=businessbattle)
+
+### Business Battle
+Business Case Study
+[TechnicalFix The GlitchDebugging Challenge1-2 Members2:00 PM - 4:00 PM](http://localhost:3000/dashboard?event=fixtheglitch)
+
+### Fix The Glitch
+Debugging Challenge
+[TechnicalPaper PresentationResearch Presentation1-2 Members10:00 AM - 12:00 PM](http://localhost:3000/dashboard?event=paperpresentation)
+
+### Paper Presentation
+Research Presentation
+[Non-TechnicalStart MusicMusic Competition1-3 Members2:00 PM - 4:00 PM](http://localhost:3000/dashboard?event=startmusic)
+
+### Start Music
+Music Competition
+[Non-TechnicalLubber PandhuIndoor Cricket Tournament4-5 Members10:00 AM - 4:00 PM](http://localhost:3000/dashboard?event=lubberpandhu)
+
+### Lubber Pandhu
+Indoor Cricket Tournament
+[Non-TechnicalE-SportsGaming Tournament1-4 Members10:00 AM - 4:00 PM](http://localhost:3000/dashboard?event=esports)
+
+### E-Sports
+Gaming Tournament
+[Non-TechnicalClash of TalentsTalent Show1-3 Members2:00 PM - 4:00 PM](http://localhost:3000/dashboard?event=clashoftalents)
+
+### Clash of Talents
+Talent Show
+[Non-TechnicalIPL AuctionMock IPL Auction3-5 Members10:00 AM - 12:00 PM](http://localhost:3000/dashboard?event=iplauction)
+
+### IPL Auction
+Mock IPL Auction
+[BreakoutCarrom 2.0Carrom Tournament2-2 MembersFlexible](http://localhost:3000/dashboard?event=carrom)
+
+### Carrom 2.0
+Carrom Tournament
+[BreakoutVaanga PazhagalamTamil Cultural Event2-4 MembersFlexible](http://localhost:3000/dashboard?event=vaangapazhagalam)
+
+### Vaanga Pazhagalam
+Tamil Cultural Event
+
+## ABOUT US
+Sriram Engineering College is dedicated to fostering innovation, technical excellence, and a vibrant student community. TECHXAURA 2K26 brings together talent from across the region to compete, learn, and celebrate creativity in technology and beyond.
+[Home](http://localhost:3000/)
+[Events](http://localhost:3000#events)
+[Organizers](http://localhost:3000/auth/admin-login)
