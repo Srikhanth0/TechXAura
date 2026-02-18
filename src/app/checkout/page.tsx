@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogBody, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { QRCodeSVG } from "qrcode.react";
-import { ArrowLeft, Users, Trash2, Upload, Check, AlertCircle, XCircle } from "lucide-react";
+import { ArrowLeft, Users, Trash2, Upload, Check, AlertCircle, XCircle, Link2, ExternalLink, MessageCircle, Eye } from "lucide-react";
 import Link from "next/link";
 // import Image from "next/image";
 import toast from "react-hot-toast";
@@ -21,7 +21,7 @@ import dynamic from "next/dynamic";
 
 const IdCardScene = dynamic(() => import("@/components/IdCardScene"), { ssr: false });
 
-type CheckoutStep = "review" | "payment" | "thankyou";
+type CheckoutStep = "review" | "payment" | "thankyou" | "communities";
 
 export default function CheckoutPage() {
     const { user, profile, loading: authLoading } = useAuth();
@@ -33,9 +33,73 @@ export default function CheckoutPage() {
     const [selectedEventId, setSelectedEventId] = React.useState<string | null>(null);
     const [uploading, setUploading] = React.useState(false);
     const [paymentScreenshot, setPaymentScreenshot] = React.useState<string | null>(null);
+    const [driveUrl, setDriveUrl] = React.useState("");
+    const [driveUrlError, setDriveUrlError] = React.useState<string | null>(null);
+    const [registeredItems, setRegisteredItems] = React.useState<typeof items>([]);
     const [conflictError, setConflictError] = React.useState<string | null>(null);
     const [validationError, setValidationError] = React.useState<ValidationResult | null>(null);
+    const [imagePreviewOpen, setImagePreviewOpen] = React.useState(false);
+    const [previewObjectUrl, setPreviewObjectUrl] = React.useState<string | null>(null);
     const [isMounted, setIsMounted] = React.useState(false);
+
+    // Clean up object URL
+    React.useEffect(() => {
+        return () => {
+            if (previewObjectUrl) {
+                URL.revokeObjectURL(previewObjectUrl);
+            }
+        };
+    }, [previewObjectUrl]);
+
+    // WhatsApp community links per event
+    const whatsappLinks: Record<string, { url: string; name: string; category?: string }> = {
+        paperpresentation: { url: "https://chat.whatsapp.com/E2EHiFHT1rM7Wl0TJqKeeX", name: "Paper Presentation", category: "Technical" },
+        fixtheglitch: { url: "https://chat.whatsapp.com/BftcP9CAkm61rd8xZ2sNnV", name: "Fix The Glitch", category: "Technical" },
+        mindsparkx: { url: "https://chat.whatsapp.com/JqKm2pF5JfFA9Tw6uYIUXh", name: "MindSpark X", category: "Technical" },
+        designomania: { url: "https://chat.whatsapp.com/FrZ93P6CaY052n1mYHFODY", name: "Design O Mania", category: "Creative" },
+        businessbattle: { url: "https://chat.whatsapp.com/D8RTRvuZ05k0VjCoSPA16f", name: "Business Battle", category: "Management" },
+        startmusic: { url: "https://chat.whatsapp.com/HPFcmAdrT84JcsnqHgIKcM", name: "Start Music", category: "Non-Technical" },
+        vaangapazhagalam: { url: "https://chat.whatsapp.com/CtkvA3VjsegLGlWZJBCFrA", name: "Vaanga Pazhagalam", category: "Non-Technical" },
+        lubberpandhu: { url: "https://chat.whatsapp.com/Dkz1vW0n7XpHExSjK40CMi?mode=gi_t", name: "Lubber Pandhu", category: "Sports" },
+        editomania: { url: "#", name: "Editomania", category: "Creative" },
+        iplauction: { url: "https://chat.whatsapp.com/DWodIsa2ay58HsWw6xNSOR?mode=gi_t", name: "IPL Auction", category: "Gaming" },
+        esports: { url: "https://chat.whatsapp.com/JuqyXl1LMhzGjDgbFN6fj4?mode=gi_t", name: "E-Sports", category: "Gaming" },
+        clashoftalents: { url: "https://chat.whatsapp.com/HXkjXNKi5jgDegZf3JBSET?mode=gi_t", name: "Clash of Talents", category: "Cultural" },
+        carrom: { url: "https://chat.whatsapp.com/DGSLYQdq6Rr5OjkXrIpSfe?mode=gi_t", name: "Carrom", category: "Sports" },
+    };
+
+    // Drive URL validation
+    const isValidDriveUrl = (url: string): boolean => {
+        if (!url.trim()) return false;
+        const patterns = [
+            /^https:\/\/drive\.google\.com\/file\/d\/[a-zA-Z0-9_-]+/,
+            /^https:\/\/drive\.google\.com\/open\?id=[a-zA-Z0-9_-]+/,
+            /^https:\/\/drive\.google\.com\/uc\?.*id=[a-zA-Z0-9_-]+/,
+            /^https:\/\/drive\.google\.com\/drive\/folders\/[a-zA-Z0-9_-]+/,
+        ];
+        return patterns.some(p => p.test(url.trim()));
+    };
+
+    const handleDriveUrlChange = (value: string) => {
+        setDriveUrl(value);
+        if (value.trim() && !isValidDriveUrl(value)) {
+            setDriveUrlError("Please enter a valid Google Drive URL");
+        } else {
+            setDriveUrlError(null);
+        }
+    };
+
+    // Helper to get displayable image URL from Drive link
+    const getPreviewUrl = (url: string | null) => {
+        if (!url) return "";
+        if (url.includes("drive.google.com")) {
+            const idMatch = url.match(/[-\w]{25,}/);
+            if (idMatch) {
+                return `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
+            }
+        }
+        return url;
+    };
 
     React.useEffect(() => {
         setIsMounted(true);
@@ -46,6 +110,20 @@ export default function CheckoutPage() {
             router.push("/auth");
         }
     }, [isMounted, authLoading, user, router]);
+
+    // ... (rest of useEffects) ... 
+
+
+
+
+    // Play success SFX when step changes to "thankyou"
+    React.useEffect(() => {
+        if (step === "thankyou") {
+            const audio = new Audio("/sfx/3rd_checkout_registration_sfx.wav");
+            audio.volume = 0.6;
+            audio.play().catch((err: unknown) => console.error(err));
+        }
+    }, [step]);
 
     if (!isMounted || authLoading) return null;
 
@@ -81,6 +159,11 @@ export default function CheckoutPage() {
             toast.error("You must be logged in to upload");
             return;
         }
+
+        // Create immediate preview
+        const objectUrl = URL.createObjectURL(file);
+        setPreviewObjectUrl(objectUrl);
+        setPaymentScreenshot(null); // Clear previous server URL if any
 
         setUploading(true);
         try {
@@ -126,18 +209,23 @@ export default function CheckoutPage() {
                 throw new Error("No URL returned from upload service");
             }
 
-            console.log("Setting payment screenshot URL:", link);
             setPaymentScreenshot(link);
             toast.success("Screenshot uploaded successfully!");
 
-        } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-            console.error("Payment upload error:", error);
-            toast.error(error.message || "Failed to upload screenshot. Please try again.");
+        } catch (error) {
+            console.error("Upload Error:", error);
+            toast.error(error instanceof Error ? error.message : "Failed to upload screenshot");
+            setPreviewObjectUrl(null); // Clear preview on failure
         } finally {
-            console.log("Upload process finished, resetting state.");
             setUploading(false);
         }
     };
+
+
+
+
+
+
 
     const handleProceedToPayment = () => {
         // 1. Validation: Check for minimum team size
@@ -164,8 +252,9 @@ export default function CheckoutPage() {
     };
 
     const handleCompletePayment = async () => {
-        if (!paymentScreenshot) {
-            toast.error("Please upload payment screenshot");
+        const validDrive = isValidDriveUrl(driveUrl);
+        if (!paymentScreenshot && !validDrive) {
+            toast.error("Please upload payment screenshot or upload your img to drive and paste a valid Google Drive URL");
             return;
         }
 
@@ -187,13 +276,14 @@ export default function CheckoutPage() {
                     abstractUrl: item.abstractUrl || null,
                 })),
                 amount: totalAmount,
-                paymentScreenshot,
+                paymentScreenshot: paymentScreenshot || driveUrl.trim(),
                 paymentStatus: "pending",
                 createdAt: serverTimestamp(),
             };
 
             await addDoc(collection(db, "registrations"), registrationData);
 
+            setRegisteredItems(items);
             clearCart();
             setStep("thankyou");
         } catch (error) {
@@ -204,7 +294,7 @@ export default function CheckoutPage() {
 
     if (!user) return null;
 
-    if (items.length === 0 && step !== "thankyou") {
+    if (items.length === 0 && step !== "thankyou" && step !== "communities") {
         return (
             <div className="min-h-screen bg-black flex items-center justify-center">
                 <div className="text-center">
@@ -240,15 +330,16 @@ export default function CheckoutPage() {
                         { key: "review", label: "Review" },
                         { key: "payment", label: "Payment" },
                         { key: "thankyou", label: "Complete" },
+                        { key: "communities", label: "Join" },
                     ].map((s, i) => (
                         <React.Fragment key={s.key}>
-                            <div className={`flex items-center gap-2 ${step === s.key ? "text-cyan-400" : s.key === "thankyou" && step === "thankyou" ? "text-green-400" : "text-white/40"}`}>
+                            <div className={`flex items-center gap-2 ${step === s.key ? "text-cyan-400" : (s.key === "thankyou" && step === "thankyou") || (s.key === "communities" && step === "communities") ? "text-green-400" : "text-white/40"}`}>
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step === s.key ? "bg-cyan-500/20 border border-cyan-500" :
-                                    (s.key === "review" && step !== "review") || (s.key === "payment" && step === "thankyou")
+                                    (s.key === "review" && step !== "review") || (s.key === "payment" && (step === "thankyou" || step === "communities")) || (s.key === "thankyou" && step === "communities")
                                         ? "bg-green-500/20 border border-green-500 text-green-400"
                                         : "bg-white/5 border border-white/10"
                                     }`}>
-                                    {((s.key === "review" && step !== "review") || (s.key === "payment" && step === "thankyou")) ? (
+                                    {((s.key === "review" && step !== "review") || (s.key === "payment" && (step === "thankyou" || step === "communities")) || (s.key === "thankyou" && step === "communities")) ? (
                                         <Check className="w-4 h-4" />
                                     ) : (
                                         i + 1
@@ -256,7 +347,7 @@ export default function CheckoutPage() {
                                 </div>
                                 <span className="text-sm font-medium hidden sm:block">{s.label}</span>
                             </div>
-                            {i < 2 && <div className="w-12 h-px bg-white/10 mx-2" />}
+                            {i < 3 && <div className="w-12 h-px bg-white/10 mx-2" />}
                         </React.Fragment>
                     ))}
                 </div>
@@ -264,7 +355,13 @@ export default function CheckoutPage() {
                 {/* Step Content */}
                 {step === "review" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                        <h2 className="text-2xl font-bold text-white mb-6">Review Your Cart</h2>
+                        <h2 className="text-2xl font-bold text-white mb-2">Review Your Cart</h2>
+                        <div className="mb-6 inline-block">
+                            <p className="text-amber-400 font-semibold text-sm bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg flex items-center gap-2 animate-pulse">
+                                <AlertCircle className="w-4 h-4" />
+                                Please add your complete team members list
+                            </p>
+                        </div>
 
                         {/* Cart Items */}
                         <div className="space-y-4 mb-8">
@@ -343,60 +440,128 @@ export default function CheckoutPage() {
                 )}
 
                 {step === "payment" && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
-                        <h2 className="text-2xl font-bold text-white mb-2">Complete Payment</h2>
-                        <p className="text-white/60 mb-8">Scan the QR code or use UPI ID to pay</p>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
+                            <h2 className="text-2xl font-bold text-white mb-6 font-orbitron">Payment</h2>
 
-                        {/* QR Code */}
-                        <div className="inline-block p-6 bg-white rounded-2xl mb-6">
-                            {/* Ensure QR code image is correct path */}
-                            <img src="/payment_qr/Payment_Image.jpeg" alt="Payment QR Code" width={200} height={200} className="rounded-lg" />
-                        </div>
-
-                        <p className="text-white/60 text-sm mb-2">UPI ID</p>
-                        <p className="text-cyan-400 font-mono text-lg mb-8">{upiId}</p>
-
-                        {/* Upload Section */}
-                        <div className="max-w-md mx-auto">
-                            <p className="text-white/80 font-medium mb-4">Upload Payment Screenshot</p>
-
-                            {paymentScreenshot ? (
-                                <div className="relative mb-4">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={paymentScreenshot} alt="Payment" className="rounded-xl max-h-48 mx-auto" />
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => setPaymentScreenshot(null)}
-                                        className="mt-2 border-white/10 text-white/70"
-                                    >
-                                        Change Screenshot
-                                    </Button>
-                                </div>
-                            ) : (
-                                <label className="block cursor-pointer mb-6">
-                                    <div className="p-8 border-2 border-dashed border-white/10 rounded-xl hover:border-cyan-500/50 transition-colors">
-                                        <Upload className="w-8 h-8 text-white/40 mx-auto mb-2" />
-                                        <p className="text-white/60 text-sm">Click to upload</p>
+                            <div className="space-y-6">
+                                <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-xl">
+                                    <p className="text-purple-200 text-sm mb-2 font-mono">UPI ID</p>
+                                    <div className="flex items-center justify-between">
+                                        <code className="text-white font-bold text-lg">{upiId}</code>
+                                        <Button size="sm" variant="ghost" className="text-white/60 hover:text-white" onClick={() => {
+                                            navigator.clipboard.writeText(upiId);
+                                            toast.success("UPI ID copied!");
+                                        }}>
+                                            Copy
+                                        </Button>
                                     </div>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleFileUpload}
-                                        className="hidden"
-                                        disabled={uploading}
-                                    />
-                                </label>
-                            )}
+                                </div>
 
-                            <Button
-                                onClick={handleCompletePayment}
-                                disabled={!paymentScreenshot || uploading}
-                                className="w-full bg-[#4c1d95] text-white hover:bg-[#5b21b6] disabled:opacity-50"
-                            >
-                                {uploading ? "Uploading..." : "Complete Registration"}
-                            </Button>
+                                <div className="flex justify-center">
+                                    <div className="bg-white p-4 rounded-xl">
+                                        <QRCodeSVG value={`upi://pay?pa=${upiId}&pn=TECHXAURA&am=${totalAmount}&mam=${totalAmount}&cu=INR`} size={200} />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <Label className="text-white mb-2 block">Upload Payment Screenshot</Label>
+
+                                    {previewObjectUrl || paymentScreenshot ? (
+                                        <div className="flex items-center gap-4 mb-4 bg-white/5 p-3 rounded-xl border border-white/10">
+                                            <div
+                                                className="relative h-16 w-16 shrink-0 rounded-lg overflow-hidden border border-white/20 cursor-zoom-in group"
+                                                onClick={() => setImagePreviewOpen(true)}
+                                            >
+                                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                <img src={previewObjectUrl || getPreviewUrl(paymentScreenshot)} alt="Payment Preview" className="h-full w-full object-cover transition-transform group-hover:scale-110" />
+                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <Eye className="w-4 h-4 text-white" />
+                                                </div>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-white text-sm font-medium truncate">Screenshot Uploaded</p>
+                                                <p className="text-white/40 text-xs">Ready to submit</p>
+                                            </div>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => {
+                                                    setPaymentScreenshot(null);
+                                                    setPreviewObjectUrl(null);
+                                                }}
+                                                className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div className="relative">
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleFileUpload}
+                                                className="hidden"
+                                                id="payment-upload"
+                                                disabled={uploading}
+                                            />
+                                            <label
+                                                htmlFor="payment-upload"
+                                                className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all group ${uploading
+                                                    ? "border-white/10 bg-white/5 cursor-wait"
+                                                    : "border-white/20 hover:border-purple-500/50 hover:bg-white/5"
+                                                    }`}
+                                            >
+                                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                    {uploading ? (
+                                                        <div className="animate-spin w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full mb-2" />
+                                                    ) : (
+                                                        <>
+                                                            <div className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                                                <Upload className="w-5 h-5 text-purple-400" />
+                                                            </div>
+                                                            <p className="text-sm text-white/60 mb-1">Click to upload screenshot</p>
+                                                            <p className="text-xs text-white/40">SVG, PNG, JPG or GIF (MAX. 5MB)</p>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </label>
+                                        </div>
+                                    )}
+
+                                    <div className="mt-4 flex items-center gap-2">
+                                        <div className="h-px flex-1 bg-white/10" />
+                                        <span className="text-xs text-white/30 uppercase">Or via Drive</span>
+                                        <div className="h-px flex-1 bg-white/10" />
+                                    </div>
+
+                                    <div className="mt-4">
+                                        <Label htmlFor="drive-url" className="text-white text-xs mb-1.5 block">Google Drive URL (Optional)</Label>
+                                        <div className="relative">
+                                            <Link2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                                            <Input
+                                                id="drive-url"
+                                                value={driveUrl}
+                                                onChange={(e) => handleDriveUrlChange(e.target.value)}
+                                                placeholder="Paste Google Drive link..."
+                                                className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-purple-500/50"
+                                            />
+                                        </div>
+                                        {driveUrlError && (
+                                            <p className="text-red-400 text-xs mt-1">{driveUrlError}</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <Button
+                            className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-400 hover:from-purple-500 hover:to-purple-700 text-white font-bold tracking-wide rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+                            disabled={(!paymentScreenshot && !driveUrl) || !!driveUrlError || uploading}
+                            onClick={handleCompletePayment}
+                        >
+                            Complete Registration
+                        </Button>
                     </motion.div>
                 )}
 
@@ -419,14 +584,78 @@ export default function CheckoutPage() {
                             Your registration has been submitted successfully. Our team will verify your payment and send a confirmation email shortly.
                         </p>
                         <p className="text-white/40 text-xs mb-6">Drag the ID card above to interact with it!</p>
+
+                        <Button
+                            onClick={() => setStep("communities")}
+                            className="bg-[#4c1d95] text-white hover:bg-[#5b21b6]"
+                        >
+                            Join WhatsApp Communities
+                        </Button>
+                    </motion.div>
+                )}
+
+                {step === "communities" && (
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="text-center py-8"
+                    >
+                        {/* WhatsApp Community Section */}
+                        <div className="max-w-2xl mx-auto w-full">
+                            <div className="flex items-center justify-center gap-2 mb-6">
+                                <MessageCircle className="w-5 h-5 text-green-400" />
+                                <h3 className="text-lg sm:text-xl font-semibold text-white">Join WhatsApp Communities</h3>
+                            </div>
+                            <p className="text-white/50 text-sm mb-6">Click on an event to join its WhatsApp community group</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                                {Object.values(whatsappLinks).filter(link => link.url !== "#").map((link, index) => (
+                                    <a
+                                        key={index}
+                                        href={link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group p-4 rounded-xl border border-white/10 bg-gradient-to-r from-green-900/10 via-transparent to-transparent hover:border-green-500/40 hover:bg-green-900/15 transition-all cursor-pointer"
+                                    >
+                                        <div className="flex items-center justify-between">
+                                            <div className="text-left">
+                                                <h4 className="text-white font-medium text-sm">{link.name}</h4>
+                                                {link.category && <span className="text-white/40 text-xs">{link.category}</span>}
+                                            </div>
+                                            <ExternalLink className="w-4 h-4 text-green-400/60 group-hover:text-green-400 transition-colors" />
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
                         <Link href="/">
-                            <Button className="bg-[#4c1d95] text-white hover:bg-[#5b21b6]">
-                                Back to Home
+                            <Button className="bg-white/10 text-white hover:bg-white/20 border border-white/10">
+                                Return to Homepage
                             </Button>
                         </Link>
                     </motion.div>
                 )}
             </main>
+
+            {/* Image Preview Dialog */}
+            <Dialog open={imagePreviewOpen} onOpenChange={setImagePreviewOpen}>
+                <DialogContent className="bg-black/95 border-white/10 max-w-4xl p-0 overflow-hidden">
+                    <DialogHeader className="sr-only">
+                        <DialogTitle>Payment Preview</DialogTitle>
+                        <DialogDescription>Full size preview of the payment screenshot</DialogDescription>
+                    </DialogHeader>
+                    <div className="relative w-full h-[80vh] flex items-center justify-center p-4">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        {(previewObjectUrl || paymentScreenshot) && (
+                            <img
+                                src={previewObjectUrl || getPreviewUrl(paymentScreenshot)}
+                                alt="Full Payment Preview"
+                                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                            />
+                        )}
+                    </div>
+                </DialogContent>
+            </Dialog>
 
             {/* Team Modal */}
             <TeamMemberModal
@@ -465,6 +694,26 @@ export default function CheckoutPage() {
                 error={validationError}
                 onClose={() => setValidationError(null)}
             />
+
+            {/* Image Preview Dialog */}
+            <Dialog open={imagePreviewOpen} onOpenChange={setImagePreviewOpen}>
+                <DialogContent className="bg-black/95 border-white/10 max-w-4xl p-0 overflow-hidden">
+                    <DialogHeader className="sr-only">
+                        <DialogTitle>Payment Preview</DialogTitle>
+                        <DialogDescription>Full size preview of the payment screenshot</DialogDescription>
+                    </DialogHeader>
+                    <div className="relative w-full h-[80vh] flex items-center justify-center p-4">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        {(previewObjectUrl || paymentScreenshot) && (
+                            <img
+                                src={previewObjectUrl || getPreviewUrl(paymentScreenshot)}
+                                alt="Full Payment Preview"
+                                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                            />
+                        )}
+                    </div>
+                </DialogContent>
+            </Dialog>
 
         </div >
     );
