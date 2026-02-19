@@ -22,6 +22,12 @@ export default function Error({
                 <p className="text-zinc-400 mb-6">
                     An unexpected error has occurred. Our tech support protocols have been notified.
                 </p>
+                <p className="text-zinc-400 mb-6">
+                    Please Contact the TechXAURA Team for assistance.
+                </p>
+                <p className="text-zinc-400 mb-6">
+                    Mobile No: +91 7200012857
+                </p>
                 <Button
                     onClick={reset}
                     variant="outline"

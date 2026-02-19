@@ -169,6 +169,34 @@ export const eventsData: Event[] = [
         image: "/Events_image/paper presentation.jpeg",
         ctaText: "SUBMIT PAPER"
     },
+    {
+        id: "editomania",
+        name: "Edit-O-Mania",
+        subtitle: "CRAFT. CUT. CREATE.",
+        category: "Technical",
+        description: "A creative editing competition where you showcase your editing skills within a time limit.",
+        teamSizeMin: 2,
+        teamSizeMax: 3,
+        date: "FEBRUARY 27, 2026",
+        time: "10:30 AM - 11:00 AM",
+        location: "MEDIA LAB",
+        timing: "10:30 AM - 11:00 AM",
+        timeSlot: "morning",
+        rounds: [
+            { id: 1, title: "ROUND 1: THE EDIT ARENA", duration: "25 MINS", description: "Edit your content using any software or application within the given time limit." }
+        ],
+        rules: [
+            "There will be only one round",
+            "The duration will be 25 minutes",
+            "Pre-edited or copied content is strictly prohibited",
+            "Participants may use their own laptops and mobile phones for editing",
+            "Editing must be completed within the given time limit",
+            "Participants may use any kind of software or application for editing",
+            "Each team may consist of 2 or 3 members only"
+        ],
+        image: "/Events_image/Edit-O-Mania.png",
+        ctaText: "START EDITING"
+    },
     // Non-Technical Events
     {
         id: "startmusic",

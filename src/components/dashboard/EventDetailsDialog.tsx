@@ -1,6 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { Event } from '@/data/events';
+import { Brain, Code, Zap, Target, Trophy, Sparkles } from 'lucide-react';
 
 interface EventDetailsDialogProps {
     open: boolean;
@@ -90,8 +91,8 @@ export function EventDetailsDialog({ open, onClose, event }: EventDetailsDialogP
                         const generalRules = event.rules.filter(r => !r.startsWith("ROUND"));
                         const roundRules = event.rules.filter(r => r.startsWith("ROUND"));
 
-                        // Map round index to Unicode icon for visual identity
-                        const roundIcons = ['🧠', '📐', '⚡', '🎯', '🏆'];
+                        // Map round index to Lucide icons for visual identity
+                        const roundIcons = [Brain, Code, Zap, Target, Trophy];
 
                         return (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
@@ -162,7 +163,8 @@ export function EventDetailsDialog({ open, onClose, event }: EventDetailsDialogP
                                                 const roundMatch = rule.match(/^(ROUND \d+)\s*—\s*([^:]+):\s*Arena\s*—\s*(.+?)\.\s*Mission\s*—\s*(.+)$/i);
                                                 if (roundMatch) {
                                                     const [, roundNum, roundName, arena, mission] = roundMatch;
-                                                    const icon = roundIcons[idx] || '◆';
+                                                    const IconComponent = roundIcons[idx] || Sparkles;
+
                                                     return (
                                                         <div key={idx} style={{
                                                             background: 'rgba(168,85,247,0.04)',
@@ -179,7 +181,7 @@ export function EventDetailsDialog({ open, onClose, event }: EventDetailsDialogP
                                                                 gap: '0.5rem',
                                                                 marginBottom: '0.5rem'
                                                             }}>
-                                                                <span style={{ fontSize: '1rem' }}>{icon}</span>
+                                                                <IconComponent className="w-4 h-4 text-purple-400" />
                                                                 <span style={{
                                                                     fontSize: '0.8rem',
                                                                     fontWeight: 700,

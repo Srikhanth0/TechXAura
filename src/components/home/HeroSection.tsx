@@ -21,6 +21,10 @@ export function HeroSection() {
                 <p className="mt-4 text-base sm:text-lg md:text-2xl text-purple-200/80 tracking-[0.2rem] sm:tracking-[0.4rem] md:tracking-[0.8rem] uppercase font-light font-nova">
                     2K26 Symposium
                 </p>
+                <div className="mt-2 text-sm sm:text-base md:text-xl text-purple-300/90 tracking-[0.15rem] sm:tracking-[0.3rem] md:tracking-[0.5rem] uppercase font-light font-nova animate-pulse translate-x-0 flex justify-center gap-20 pointer-events-none">
+                    <span>On Spot</span>
+                    <span>Available</span>
+                </div>
 
                 <div className="mt-32 flex justify-center">
                     <Link href="/auth">

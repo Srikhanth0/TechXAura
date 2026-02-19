@@ -26,6 +26,10 @@ export default function LoadingScreen({
     const TOTAL_TICKS = 40;
     const DEGREES_PER_TICK = (MAX_DEG - MIN_DEG) / TOTAL_TICKS;
 
+    // --- AUDIO ---
+    // Audio logic moved to BackgroundMusic.tsx for better persistence
+
+
     // --- STATE & PHYSICS ---
     const rawRotation = useMotionValue(-135);
     const snappedRotation = useMotionValue(-135);
@@ -166,11 +170,7 @@ export default function LoadingScreen({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-            >
-                <p className="text-violet-400 font-mono text-xs sm:text-sm tracking-wider">
-                    TECHXAURA 2K26
-                </p>
-            </motion.div>
+            />
         </motion.div>
     );
 }

@@ -48,6 +48,34 @@ const MAX_GLOBAL_UNIQUE_MEMBERS = 5;
 
 export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([]);
+    const [isInitialized, setIsInitialized] = useState(false);
+
+    // Load from local storage on mount
+    React.useEffect(() => {
+        const savedCart = localStorage.getItem("techxaura_cart");
+        if (savedCart) {
+            try {
+                const parsedCart = JSON.parse(savedCart);
+                setItems(parsedCart);
+            } catch (error) {
+                console.error("Failed to parse cart from storage:", error);
+            }
+        }
+        setIsInitialized(true);
+    }, []);
+
+    // Save to local storage whenever items change
+    React.useEffect(() => {
+        if (!isInitialized) return;
+
+        // Strip File objects before saving (they can't be serialized)
+        const itemsToSave = items.map(item => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { abstractFile, ...rest } = item;
+            return rest;
+        });
+        localStorage.setItem("techxaura_cart", JSON.stringify(itemsToSave));
+    }, [items, isInitialized]);
 
     // Check for time slot conflicts
     const getConflicts = useCallback((event: Event): Event[] => {

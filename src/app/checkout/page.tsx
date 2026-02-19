@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogBody, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { QRCodeSVG } from "qrcode.react";
+
 import { ArrowLeft, Users, Trash2, Upload, Check, AlertCircle, XCircle, Link2, ExternalLink, MessageCircle, Eye } from "lucide-react";
 import Link from "next/link";
 // import Image from "next/image";
@@ -460,7 +460,7 @@ export default function CheckoutPage() {
 
                                 <div className="flex justify-center">
                                     <div className="bg-white p-4 rounded-xl">
-                                        <QRCodeSVG value={`upi://pay?pa=${upiId}&pn=TECHXAURA&am=${totalAmount}&mam=${totalAmount}&cu=INR`} size={200} />
+                                        <img src="/payment_qr/Payment_Image.jpeg" alt="Payment QR Code" className="w-[200px] h-[200px] object-contain" />
                                     </div>
                                 </div>
 

@@ -4,11 +4,11 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogBody, DialogFooter, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogBody, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, updateDoc, doc, orderBy, query } from "firebase/firestore";
 import toast from "react-hot-toast";
-import { Users, Calendar, Download, Check, X, Eye, ArrowLeft } from "lucide-react";
+import { Users, Calendar, Download, Check, X, Eye, ArrowLeft, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { generateRegistrationExcel, Registration } from "@/utils/excel-utils";
 import { useAuth } from "@/context/AuthContext";
@@ -32,6 +32,18 @@ export default function AdminPage() {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [selectedReg, setSelectedReg] = React.useState<any>(null);
+    const [previewImage, setPreviewImage] = React.useState<string | null>(null);
+
+    const getPreviewUrl = (url: string | null) => {
+        if (!url) return "";
+        if (url.includes("drive.google.com")) {
+            const idMatch = url.match(/[-\w]{25,}/);
+            if (idMatch) {
+                return `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
+            }
+        }
+        return url;
+    };
 
     const fetchData = async () => {
         setLoading(true);
@@ -250,7 +262,19 @@ export default function AdminPage() {
                                                     <Eye className="w-4 h-4" />
                                                 </Button>
                                             </div>
-                                            <div className="flex items-center gap-2 flex-wrap">
+                                            <div className="flex items-center gap-2 flex-wrap mb-2">
+                                                {reg.paymentScreenshot && !reg.paymentScreenshot.includes("drive.google.com") && (
+                                                    <div
+                                                        className="h-12 w-12 rounded bg-white/5 border border-white/10 overflow-hidden cursor-pointer hover:border-purple-500 transition-colors relative mr-2"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setPreviewImage(reg.paymentScreenshot);
+                                                        }}
+                                                    >
+                                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                        <img src={reg.paymentScreenshot} alt="Pay" className="h-full w-full object-cover" />
+                                                    </div>
+                                                )}
                                                 <span className="text-white/50 text-xs">{reg.events?.length || 0} event(s)</span>
                                                 <span className="text-white/20">•</span>
                                                 <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold font-mono ${reg.paymentStatus === "verified"
@@ -276,6 +300,7 @@ export default function AdminPage() {
                                                 <th className="p-4 text-white/40 text-xs font-mono uppercase tracking-wider">Name</th>
                                                 <th className="p-4 text-white/40 text-xs font-mono uppercase tracking-wider">Email</th>
                                                 <th className="p-4 text-white/40 text-xs font-mono uppercase tracking-wider">Events</th>
+                                                <th className="p-4 text-white/40 text-xs font-mono uppercase tracking-wider">Payment</th>
                                                 <th className="p-4 text-white/40 text-xs font-mono uppercase tracking-wider">Status</th>
                                                 <th className="p-4 text-white/40 text-xs font-mono uppercase tracking-wider">Date</th>
                                                 <th className="p-4 text-white/40 text-xs font-mono uppercase tracking-wider">Actions</th>
@@ -288,6 +313,36 @@ export default function AdminPage() {
                                                     <td className="p-4 text-white/60 text-sm">{reg.userEmail}</td>
                                                     <td className="p-4 text-white/60 text-sm">
                                                         {reg.events?.length || 0} event(s)
+                                                    </td>
+                                                    <td className="p-4">
+                                                        {reg.paymentScreenshot ? (
+                                                            reg.paymentScreenshot.includes("drive.google.com") ? (
+                                                                <a
+                                                                    href={reg.paymentScreenshot}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="flex items-center gap-1 text-cyan-400 hover:underline text-xs"
+                                                                >
+                                                                    <ExternalLink className="w-3 h-3" /> Drive
+                                                                </a>
+                                                            ) : (
+                                                                <div
+                                                                    className="h-10 w-10 rounded bg-white/5 border border-white/10 overflow-hidden cursor-pointer hover:border-purple-500 transition-colors relative group"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setPreviewImage(reg.paymentScreenshot);
+                                                                    }}
+                                                                >
+                                                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                                    <img src={getPreviewUrl(reg.paymentScreenshot)} alt="Pay" className="h-full w-full object-cover" />
+                                                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                                        <Eye className="w-3 h-3 text-white" />
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        ) : (
+                                                            <span className="text-white/20 text-xs">-</span>
+                                                        )}
                                                     </td>
                                                     <td className="p-4">
                                                         <span className={`px-2 py-1 rounded-md text-xs font-bold font-mono ${reg.paymentStatus === "verified"
@@ -370,7 +425,7 @@ export default function AdminPage() {
                                         <div className="rounded-xl overflow-hidden border border-white/10 bg-black">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
-                                                src={selectedReg.paymentScreenshot}
+                                                src={getPreviewUrl(selectedReg.paymentScreenshot)}
                                                 alt="Payment"
                                                 className="w-full object-contain max-h-64"
                                             />
@@ -414,6 +469,26 @@ export default function AdminPage() {
                             </Button>
                         )}
                     </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Image Preview Modal */}
+            <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
+                <DialogContent className="bg-black/95 border-white/10 max-w-4xl p-0 overflow-hidden">
+                    <DialogHeader className="sr-only">
+                        <DialogTitle>Payment Preview</DialogTitle>
+                        <DialogDescription>Full size preview of the payment screenshot</DialogDescription>
+                    </DialogHeader>
+                    <div className="relative w-full h-[90vh] flex items-center justify-center p-4">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        {previewImage && (
+                            <img
+                                src={previewImage}
+                                alt="Full Payment Preview"
+                                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                            />
+                        )}
+                    </div>
                 </DialogContent>
             </Dialog>
         </div>

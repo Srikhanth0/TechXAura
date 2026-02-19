@@ -25,6 +25,7 @@ const dashboardEventImages: Record<string, string> = {
     clashoftalents: "/Events_image/clash of talents.webp",
     iplauction: "/Events_image/ipl auction.webp",
     carrom: "/Events_image/carrom.20.jpeg",
+    editomania: "/Events_image/Edit-O-Mania.png",
 };
 
 export default function DashboardPage() {
@@ -35,8 +36,24 @@ export default function DashboardPage() {
 
     const [showRules, setShowRules] = React.useState(false);
     const [selectedEvent, setSelectedEvent] = React.useState<Event | null>(null);
+
+    // Initialize from session storage if available, else default to "All"
     const [activeCategory, setActiveCategory] = React.useState("All");
     const [searchQuery, setSearchQuery] = React.useState("");
+
+    // Effect to load saved category on mount (client-side only)
+    useEffect(() => {
+        const savedCategory = sessionStorage.getItem("dashboard_category");
+        if (savedCategory) {
+            setActiveCategory(savedCategory);
+        }
+    }, []);
+
+    // Effect to save category whenever it changes
+    useEffect(() => {
+        sessionStorage.setItem("dashboard_category", activeCategory);
+    }, [activeCategory]);
+
 
     // OPTIMIZATION: Removed manual style injection to allow global viewport locking
 
@@ -116,14 +133,20 @@ export default function DashboardPage() {
 
                             <div className="flex items-center gap-4">
                                 {/* Rule Book Button */}
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    onClick={() => setShowRules(true)}
-                                    className="w-9 h-9 rounded-full border-white/10 bg-transparent text-white hover:bg-white/5 hover:border-purple-500/50 transition-all"
-                                >
-                                    <Book className="w-4 h-4 text-purple-400" />
-                                </Button>
+                                {/* Rule Book Button */}
+                                <div className="flex items-center gap-3">
+                                    <span className="text-cyan-400 font-bold text-xs hidden sm:block animate-pulse drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]">
+                                        How to use?
+                                    </span>
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={() => setShowRules(true)}
+                                        className="w-9 h-9 rounded-full border-cyan-500/50 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.3)] transition-all"
+                                    >
+                                        <Book className="w-4 h-4" />
+                                    </Button>
+                                </div>
 
                                 {/* Ticket Button (Replaces Cart) */}
                                 <Link href="/checkout">

@@ -39,44 +39,30 @@ export function RulesDialog({ open, onClose, onAccept, rules = [], eventName }: 
                             <div className="p-8 flex flex-col gap-6 flex-1 min-h-0 relative z-10">
 
                                 {/* ZONE 1: IDENTIFICATION (Top) */}
-                                <div className="flex flex-col items-center text-center space-y-4 shrink-0">
-                                    {/* Icon Container with Glow */}
-                                    <div className="relative group">
-                                        <div className="absolute inset-0 bg-purple-500/30 blur-xl rounded-xl opacity-50 group-hover:opacity-100 transition-opacity" />
-                                        <div className="relative h-16 w-16 bg-[#1a0b2e] border border-purple-500/30 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-                                            <AlertTriangle className="w-8 h-8 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
-                                        </div>
-                                    </div>
-
+                                <div className="flex flex-col items-center text-center space-y-2 shrink-0">
                                     {/* Title */}
-                                    <DialogTitle className="text-2xl md:text-3xl font-orbitron font-bold tracking-widest text-white uppercase drop-shadow-sm">
+                                    <DialogTitle className="text-lg md:text-xl font-orbitron font-bold tracking-widest text-white uppercase drop-shadow-sm">
                                         Rules & <span className="text-purple-400">Regulations</span>
                                     </DialogTitle>
                                 </div>
 
-                                {/* ZONE 2: CONTEXTUAL (Sub-header) */}
-                                <div className="text-center shrink-0">
-                                    <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-md mx-auto">
-                                        Please thoroughly review the strict guidelines for <span className="text-cyan-400 font-semibold">{eventName}</span>.
-                                        Refer to <span className="text-cyan-400 underline decoration-cyan-400/30 underline-offset-4 cursor-pointer hover:text-cyan-300 transition-colors">General Terms</span> for more details.
-                                    </p>
-                                </div>
+                                {/* ZONE 2: CONTEXTUAL (Sub-header) - REMOVED as requested */}
 
-                                {/* ZONE 3: CONTENT (Body) */}
-                                <div className="flex-1 min-h-0 bg-white/[0.02] border border-white/5 rounded-xl p-1 overflow-hidden flex flex-col">
-                                    <div className="overflow-y-auto custom-scrollbar p-5 h-full space-y-4">
+                                {/* ZONE 3: CONTENT (Body) - Maximized Space */}
+                                <div className="flex-1 min-h-0 bg-white/[0.02] border border-white/5 rounded-xl p-1 overflow-hidden flex flex-col mt-2">
+                                    <div className="overflow-y-auto custom-scrollbar p-4 h-full space-y-3">
                                         {rules && rules.length > 0 ? (
-                                            <ul className="space-y-4">
+                                            <ul className="space-y-3">
                                                 {rules.map((rule, index) => (
                                                     <motion.li
                                                         initial={{ opacity: 0, x: -10 }}
                                                         animate={{ opacity: 1, x: 0 }}
                                                         transition={{ delay: index * 0.05 }}
                                                         key={index}
-                                                        className="flex gap-4 items-start group"
+                                                        className="flex gap-3 items-start group"
                                                     >
                                                         <span className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)] group-hover:scale-150 transition-transform" />
-                                                        <span className="text-white/80 text-sm md:text-base leading-relaxed group-hover:text-white transition-colors">
+                                                        <span className="text-white/80 text-xs sm:text-sm leading-relaxed group-hover:text-white transition-colors">
                                                             {rule}
                                                         </span>
                                                     </motion.li>
@@ -85,7 +71,7 @@ export function RulesDialog({ open, onClose, onAccept, rules = [], eventName }: 
                                         ) : (
                                             <div className="h-full flex flex-col items-center justify-center text-center opacity-50 py-10">
                                                 <FileText className="w-12 h-12 text-white/20 mb-3" />
-                                                <p className="text-white/40 text-sm font-orb tracking-wider">STANDARD PARTICIPATION RULES APPLY</p>
+                                                <p className="text-white/40 text-xs font-orb tracking-wider">STANDARD PARTICIPATION RULES APPLY</p>
                                             </div>
                                         )}
                                     </div>
