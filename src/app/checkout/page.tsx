@@ -41,6 +41,7 @@ export default function CheckoutPage() {
     const [imagePreviewOpen, setImagePreviewOpen] = React.useState(false);
     const [previewObjectUrl, setPreviewObjectUrl] = React.useState<string | null>(null);
     const [isMounted, setIsMounted] = React.useState(false);
+    const [submitting, setSubmitting] = React.useState(false);
 
     // Clean up object URL
     React.useEffect(() => {
@@ -252,6 +253,9 @@ export default function CheckoutPage() {
     };
 
     const handleCompletePayment = async () => {
+        // DOUBLE-CLICK GUARD: Prevent duplicate Firebase writes
+        if (submitting) return;
+
         const validDrive = isValidDriveUrl(driveUrl);
         if (!paymentScreenshot && !validDrive) {
             toast.error("Please upload payment screenshot or upload your img to drive and paste a valid Google Drive URL");
@@ -260,6 +264,7 @@ export default function CheckoutPage() {
 
         if (!user) return;
 
+        setSubmitting(true);
         try {
             // Create registration in Firestore
             const registrationData = {
@@ -289,6 +294,8 @@ export default function CheckoutPage() {
         } catch (error) {
             console.error("Registration error:", error);
             toast.error("Failed to submit registration");
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -557,10 +564,17 @@ export default function CheckoutPage() {
 
                         <Button
                             className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-400 hover:from-purple-500 hover:to-purple-700 text-white font-bold tracking-wide rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] disabled:opacity-50 disabled:cursor-not-allowed mt-6"
-                            disabled={(!paymentScreenshot && !driveUrl) || !!driveUrlError || uploading}
+                            disabled={(!paymentScreenshot && !driveUrl) || !!driveUrlError || uploading || submitting}
                             onClick={handleCompletePayment}
                         >
-                            Complete Registration
+                            {submitting ? (
+                                <span className="flex items-center gap-2">
+                                    <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+                                    Submitting...
+                                </span>
+                            ) : (
+                                "Complete Registration"
+                            )}
                         </Button>
                     </motion.div>
                 )}
@@ -695,25 +709,6 @@ export default function CheckoutPage() {
                 onClose={() => setValidationError(null)}
             />
 
-            {/* Image Preview Dialog */}
-            <Dialog open={imagePreviewOpen} onOpenChange={setImagePreviewOpen}>
-                <DialogContent className="bg-black/95 border-white/10 max-w-4xl p-0 overflow-hidden">
-                    <DialogHeader className="sr-only">
-                        <DialogTitle>Payment Preview</DialogTitle>
-                        <DialogDescription>Full size preview of the payment screenshot</DialogDescription>
-                    </DialogHeader>
-                    <div className="relative w-full h-[80vh] flex items-center justify-center p-4">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        {(previewObjectUrl || paymentScreenshot) && (
-                            <img
-                                src={previewObjectUrl || getPreviewUrl(paymentScreenshot)}
-                                alt="Full Payment Preview"
-                                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-                            />
-                        )}
-                    </div>
-                </DialogContent>
-            </Dialog>
 
         </div >
     );

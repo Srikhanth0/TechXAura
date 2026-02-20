@@ -47,34 +47,40 @@ export async function generateRegistrationExcel(registrations: Registration[]): 
     worksheet.getRow(1).font = { bold: true };
 
     registrations.forEach(reg => {
-        reg.events.forEach(event => {
+        // DEFENSIVE SYSTEM DESIGN: Deduplicate events array based on eventName.
+        // If a user has two "Design-O-Mania" objects due to a DB bug, this filters it to one.
+        const uniqueEventsMap = new Map<string, typeof reg.events[0]>();
+        if (reg.events) {
+            reg.events.forEach(event => {
+                uniqueEventsMap.set(event.eventName, event);
+            });
+        }
+        const cleanEvents = Array.from(uniqueEventsMap.values());
+
+        cleanEvents.forEach(event => {
             let memberNames = '-';
             let memberEmails = '-';
             let memberPhones = '-';
             let memberColleges = '-';
 
             if (event.teamMembers && event.teamMembers.length > 0) {
-                // Extract arrays of data
                 const names = event.teamMembers.map(m => m.name);
                 const emails = event.teamMembers.map(m => m.email);
                 const phones = event.teamMembers.map(m => m.phone);
                 const colleges = event.teamMembers.map(m => m.college);
 
-                // Join data line-by-line
                 memberNames = names.join('\n');
                 memberEmails = emails.join('\n');
                 memberPhones = phones.join('\n');
 
-                // Smart college filter: Check if all team members are from the same college
                 const uniqueColleges = Array.from(new Set(colleges));
                 if (uniqueColleges.length === 1) {
-                    memberColleges = uniqueColleges[0]; // Just list it once
+                    memberColleges = uniqueColleges[0];
                 } else {
-                    memberColleges = colleges.join('\n'); // List line-by-line if different
+                    memberColleges = colleges.join('\n');
                 }
             }
 
-            // Add ONE row per event registration
             const row = worksheet.addRow({
                 userName: reg.userName,
                 userEmail: reg.userEmail,
@@ -93,44 +99,10 @@ export async function generateRegistrationExcel(registrations: Registration[]): 
             });
 
             // CRUCIAL: Enable text wrapping so the '\n' creates visible line breaks in Excel
-            // We also align to top so everything looks neat
             row.alignment = { wrapText: true, vertical: 'top' };
         });
     });
 
     const buffer = await workbook.xlsx.writeBuffer();
     return new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-}
-
-export interface TeamMember {
-    name: string;
-    email: string;
-    phone_number: string;
-    screenshot_url: string;
-}
-
-export async function generateTeamExcel(members: TeamMember[]): Promise<Buffer> {
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('TeamMembers');
-
-    worksheet.columns = [
-        { header: 'Name', key: 'name', width: 20 },
-        { header: 'Email', key: 'email', width: 30 },
-        { header: 'Phone', key: 'phone_number', width: 15 },
-        { header: 'Screenshot URL', key: 'screenshot_url', width: 40 },
-    ];
-
-    worksheet.getRow(1).font = { bold: true };
-
-    members.forEach(member => {
-        worksheet.addRow({
-            name: member.name,
-            email: member.email,
-            phone_number: member.phone_number,
-            screenshot_url: member.screenshot_url,
-        });
-    });
-
-    const buffer = await workbook.xlsx.writeBuffer();
-    return buffer as unknown as Buffer;
 }
